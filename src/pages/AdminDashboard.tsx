@@ -9,7 +9,7 @@ import ModalRoot from '../components/ModalRoot';
 import  Logout  from '../components/admin/Logout';
 import { useState } from 'react';
 
-export const Dashboard = () => {
+export const AdminDashboard = () => {
   const dispatch = useDispatch();
   const [logoutModal, setLogout] = useState(false);
   const openLogoutModal = () => {
@@ -34,12 +34,14 @@ export const Dashboard = () => {
       <div className='admin_header'>
         <div className='center'>
           <img src={logoIT} alt='' className='admi_logo' />
-          <button>Dashboard</button>
           <button>
-            <Link to='students'>Student</Link>
+            <Link to='dashboard'>Dashboard</Link>
           </button>
           <button>
-            <Link to='lecturers'>Lecturer</Link>
+            <Link to='student'>Student</Link>
+          </button>
+          <button>
+            <Link to='lecturer'>Lecturer</Link>
           </button>
         </div>
         <div className='avatar_con'>
