@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from '../../config/axios';
-import api from '../../config/axios';
+
 
 type Prop = {
   path: string;

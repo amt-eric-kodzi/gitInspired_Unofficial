@@ -1,6 +1,6 @@
 import image from '../../assets/admin-dashboardimg.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserGraduate, faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faUserGraduate} from '@fortawesome/free-solid-svg-icons';
 
 export const Dashboard = () => {
   return (

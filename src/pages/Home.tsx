@@ -1,14 +1,13 @@
+import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import laptop from '../assets/laptop.png';
 import laptoplock from '../assets/laptoplock.png';
-import { useEffect, useState } from 'react';
 
 export const Home = () => {
   const [isReset, setIsReset] = useState(false);
   let location = useLocation();
-  let path = location.pathname;
-
   useEffect(() => {
+    let path = location.pathname;
     if (path === '/resetpassword') setIsReset(true);
   }, []);
 
@@ -33,9 +32,8 @@ export const Home = () => {
         </div>
       </div>
       <div className='home_form_con'>
-        <Outlet/>
+        <Outlet />
       </div>
-
     </div>
   );
 };

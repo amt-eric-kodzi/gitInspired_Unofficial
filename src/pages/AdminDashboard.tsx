@@ -1,13 +1,13 @@
-import { onLogout } from '../api/authentication';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/slice/authSlice';
+import { Link, Outlet } from 'react-router-dom';
+import { onLogout } from '../api/authentication';
 import logoIT from '../assets/logoIT.png';
 import user from '../assets/user 2.png';
-import { Link, Outlet } from 'react-router-dom';
-import Modal from '../components/Modal'
+import Modal from '../components/Modal';
 import ModalRoot from '../components/ModalRoot';
-import  Logout  from '../components/admin/Logout';
-import { useState } from 'react';
+import Logout from '../components/admin/Logout';
+import { logout } from '../redux/slice/authSlice';
 
 export const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const AdminDashboard = () => {
     setLogout(false);
   };
 
-  const uLogout = () => {
+  const userLogout = () => {
     const x = onLogout();
     console.log(x);
 
@@ -53,7 +53,7 @@ export const AdminDashboard = () => {
       <Outlet />
       <ModalRoot>
         <Modal isOpen={logoutModal} onClose={closeLogoutModal}>
-          <Logout signout={uLogout} cancel={closeLogoutModal}/>
+          <Logout signout={userLogout} cancel={closeLogoutModal}/>
         </Modal>
       </ModalRoot>
     </div>

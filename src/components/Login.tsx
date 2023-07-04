@@ -1,71 +1,94 @@
-import { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { onLogin } from '../api/authentication';
-import { User } from '../models/User';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/slice/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { onLogin } from '../api/authentication';
+import { login } from '../redux/slice/authSlice';
 
-export const Login = () => {
+export const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loginId, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
-  const user: User = {
-    loginId: '',
-    password: '',
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
   };
-  const [data, setdata] = useState(user);
 
-  useEffect(() => {}, []);
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
 
-  const form = useForm<User>();
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = form;
+  const clearErrors = () => {
+    setIsEmailError(false);
+    setLoginError('');
+  };
+  const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
-    setdata(data);
-    await onLogin(data).then(() => {
-      dispatch(login());
-    }).catch((err)=>{
-      console.log(err)
-    });
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!emailPattern.test(loginId)) {
+      setIsEmailError(true);
+      return;
+    }
 
-    navigate('/dashboard');
+    await onLogin({ loginId, password })
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(login());
+          navigate('/dashboard');
+        }
+      })
+      .catch((err) => {
+        return setLoginError(err.response.data.message);
+      });
   };
 
   return (
     <div className='home_form'>
-      <h1 className=''>Welcome Back, Log in</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <h1>Welcome back, Log in</h1>
+      {loginError && <span className='error'>{loginError}</span>}
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor='email'>Email / Staff ID:</label>
-          <br />
-          <input
-            type='email'
-            id='email'
-            placeholder='Enter your email or Staff ID'
-            {...register('loginId', { required: true })}
-          />
-          {errors.loginId && <span>Email or Staff ID is required</span>}
+          <label htmlFor='username'>Email / Staff ID</label>
+          <div className={isEmailError || loginError ? 'red-border input-div' : 'input-div'}>
+            <input
+              type='text'
+              id='username'
+              value={loginId}
+              onChange={handleUsernameChange}
+              onFocus={clearErrors}
+              required
+            />
+          </div>
         </div>
-
+        {isEmailError && <span className='error'>Please enter a correct email address</span>}
         <div>
           <label htmlFor='password'>Password:</label>
-          <br />
-          <input
-            type='password'
-            id='password'
-            placeholder='Enter your password'
-            {...register('password', { required: true })}
-          />
+          <div className={loginError ? 'red-border input-div' : 'input-div'}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id='password'
+              value={password}
+              onChange={handlePasswordChange}
+              onFocus={clearErrors}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEye : faEyeSlash}
+              onClick={handleTogglePassword}
+            />
+          </div>
         </div>
-        <div>
-          <button type='submit'>Log in</button>
-        </div>
+        <button type='submit'>Login</button>
       </form>
     </div>
   );
