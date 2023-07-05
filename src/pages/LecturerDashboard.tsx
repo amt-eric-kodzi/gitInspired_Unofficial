@@ -55,7 +55,7 @@ export const LecturerDashboard = () => {
           <div className='sort-wrapper'>
             <input type='text' placeholder='Sort by' />
             <button onClick={openModal}>
-              Assignment <FontAwesomeIcon icon={faCross} />
+              Assignment <span className='add-icon'>+</span>
             </button>
           </div>
         </div>

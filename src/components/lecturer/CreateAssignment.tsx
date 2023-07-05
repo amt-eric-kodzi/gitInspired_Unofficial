@@ -9,6 +9,7 @@ export const CreateAssignment = () => {
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  const [studentSearch, setStudentSearch] = useState('');
 
   const handleDescription = (value: string) => {
     setDescription(value);
@@ -23,7 +24,12 @@ export const CreateAssignment = () => {
     setDeadline(formattedDate);
   };
 
-  const handleInvite = (event: React.ChangeEvent<HTMLInputElement>, item:string) => {
+
+  const handleStudentSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStudentSearch(event.target.value);
+  };
+
+  const handleInvite = (event: React.ChangeEvent<HTMLInputElement>, item: string) => {
     if (event.target.checked) {
       setSelectedEmails([...selectedEmails, item]);
     } else {
@@ -39,8 +45,7 @@ export const CreateAssignment = () => {
   };
 
   const showdata = () => {
-    console.log({ description, title, deadline });
-    console.log(selectedEmails)
+    console.log({ description, title, deadline, selectedEmails });
   };
 
   const students: any[] = [];
@@ -52,6 +57,9 @@ export const CreateAssignment = () => {
     };
     students.push(user);
   }
+
+  const backgroundColor = ['#FFA9A9','#A9EAFF','#E9A9FF']
+  console.log(studentSearch)
 
   return (
     <div className='create-assignment'>
@@ -72,8 +80,10 @@ export const CreateAssignment = () => {
           <label htmlFor='deadline'>Deadline</label>
           <input type='date' id='deadline' value={deadline} onChange={handleDateChange} />
         </div>
-        <label htmlFor="">Assignment Description</label>
-        <ReactQuill value={description} onChange={handleDescription} />
+        <div className='assignment-input-wrapper react-quil'>
+          <label className='mark-down-label'>Assignment Description</label>
+          <ReactQuill value={description} onChange={handleDescription} />
+        </div>
         <div className='publish-draft'>
           <button onClick={showdata}>Save and Publish</button>
           <button>Save as Draft</button>
@@ -83,16 +93,16 @@ export const CreateAssignment = () => {
         <h2>Invite Student</h2>
         <div className='invite-students-search'>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <input type='text' placeholder='Search' />
+          <input type='text' placeholder='Search' onChange={handleStudentSearch} value={studentSearch}/>
           <div className='select-email-wrapper'>
             {students.map((student, index) => (
               <div className='select-email-item'>
-                <div className='email-avatar'>{student.name.charAt(0)}</div>
+                <div className='email-avatar' style={{backgroundColor:backgroundColor[index%3]}}>{student.name.charAt(0)}</div>
                 <div key={index}>
                   <p>{student.name}</p>
                   <p>{student.email}</p>
                 </div>
-                <div>
+                <div className='check-box-container'>
                   <input
                     type='checkbox'
                     value={student.email}

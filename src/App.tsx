@@ -14,8 +14,8 @@ import { LecturerDashboard } from './pages/LecturerDashboard';
 import { AuthState } from './redux/slice/authSlice';
 
 function App() {
-  const isAuthenticated = useSelector((state: AuthState) => state.isAuthenticated);
-  //const isAuthenticated = false;
+  //const isAuthenticated = useSelector((state: AuthState) => state.isAuthenticated);
+  const isAuthenticated = true;
 
   return (
     <Router>

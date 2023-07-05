@@ -33,8 +33,7 @@ export const AddOneUser = (prop: Prop) => {
   return (
     <div className='add_one_user'>
       <h2>
-        Tell us a bit about the {slug} <br />
-        you are adding
+        Tell us a bit about the {slug} you are adding
       </h2>
       <span>Please fill the following details to get started</span>
       <form className='input_con' onSubmit={handleSubmit(onSubmit)}>

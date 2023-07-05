@@ -14,6 +14,7 @@ export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
   const [loginError, setLoginError] = useState('');
+  //const [user, setUser] = useState(null)
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -43,6 +44,7 @@ export const Login: React.FC = () => {
     await onLogin({ loginId, password })
       .then((res) => {
         if (res.status === 200) {
+          //setUser(res.user)
           dispatch(login());
           navigate('/dashboard');
         }
