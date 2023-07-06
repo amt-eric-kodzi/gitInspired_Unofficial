@@ -59,7 +59,6 @@ export const AddMultipleUsers = (prop: Prop) => {
     //setFileErrorMessage(false);
   }, [acceptedFiles]);
   const slug = prop.path;
- console.log(slug);
   //const [isFileErrorMessage, setFileErrorMessage] = useState(false);
 
   const uploadFile = async () => {
@@ -69,9 +68,9 @@ export const AddMultipleUsers = (prop: Prop) => {
       let formData = new FormData();
       formData.append('file', acceptedFiles[0]);
       await api
-        .post(`/api/bulk/upload-${slug}s`, formData)
+        .post(`/api/admin/upload-${slug}s-info`, formData, { withCredentials: true })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
         })
         .catch((err) => console.log(err));
     }
