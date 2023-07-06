@@ -19,7 +19,8 @@ export const AddOneUser = (prop: Prop) => {
 
   const onSubmit: SubmitHandler<NewStudent> = async (data) => {
     try {
-      dispatch(addStudent(data));
+      slug === 'student' && dispatch(addStudent(data));
+      slug === 'lecturer' && dispatch(addStudent(data));// change to addlec...
     } catch (error) {
       console.error('Login failed:', error);
     }
