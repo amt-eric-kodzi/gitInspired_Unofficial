@@ -8,19 +8,19 @@ const initialState: AuthState = {
   user: null,
 };
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async (payload: User, { rejectWithValue }) => {
-    try {
-      const response = await api.post('/api/auth/login', payload, { withCredentials:true});
-      const { profile } = response.data;
-
-      return profile;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
+export const login = createAsyncThunk('auth/login', async (payload: User, { rejectWithValue }) => {
+  try {
+    const response = await api.post('/api/auth/login', payload, { withCredentials: true });
+    if (response.status !== 200) {
+      return rejectWithValue(response.status);
     }
+    const { profile } = response.data;
+
+    return profile;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 const authSlice = createSlice({
   name: 'auth',
