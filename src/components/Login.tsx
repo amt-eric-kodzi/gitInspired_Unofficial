@@ -42,11 +42,12 @@ export const Login: React.FC = () => {
     setLoginError('');
   };
   const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const userIdPattern = /^(LEC|STU|ADM)-\d{5}/;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!emailPattern.test(userPayload.loginId)) {
+    if (!emailPattern.test(userPayload.loginId) && !userIdPattern.test(userPayload.loginId)) {
       setIsEmailError(true);
       return;
     }
@@ -76,7 +77,7 @@ export const Login: React.FC = () => {
             />
           </div>
         </div>
-        {isEmailError && <span className='error'>Please enter a correct email address</span>}
+        {isEmailError && <span className='error'>Please enter a correct username</span>}
         <div>
           <label htmlFor='password'>Password:</label>
           <div className={loginError ? 'red-border input-div' : 'input-div'}>

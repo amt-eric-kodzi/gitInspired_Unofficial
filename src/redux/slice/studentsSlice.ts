@@ -24,7 +24,7 @@ export const addStudent = createAsyncThunk(
   'students/addStudent',
   async (newStudent: NewStudent, { rejectWithValue }) => {
     try {
-      const response = await api.post('/api/admin/upload-students', newStudent);
+      const response = await api.post('/api/admin/upload-student', newStudent, {withCredentials: true});
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -58,7 +58,7 @@ export const deleteStudent = createAsyncThunk(
 
 const studentsSlice = createSlice({
   name: 'students',
-  initialState,
+  initialState, 
   reducers: {
     clearStudents(state) {
       state.students = [];
