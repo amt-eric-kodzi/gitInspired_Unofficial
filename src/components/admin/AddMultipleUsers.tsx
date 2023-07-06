@@ -56,19 +56,19 @@ export const AddMultipleUsers = (prop: Prop) => {
     });
 
     setAcceptedFileItems(x[0]);
-    setFileErrorMessage(false);
+    //setFileErrorMessage(false);
   }, [acceptedFiles]);
   const slug = prop.path;
  console.log(slug);
-  const [isFileErrorMessage, setFileErrorMessage] = useState(false);
+  //const [isFileErrorMessage, setFileErrorMessage] = useState(false);
 
   const uploadFile = async () => {
     if (!acceptedFiles[0]) {
-      setFileErrorMessage(true);
+      //setFileErrorMessage(true);
     } else {
       let formData = new FormData();
       formData.append('file', acceptedFiles[0]);
-      const response = await api
+      await api
         .post(`/api/bulk/upload-${slug}s`, formData)
         .then((res) => {
           console.log(res);
