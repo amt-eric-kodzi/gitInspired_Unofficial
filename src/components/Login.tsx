@@ -51,8 +51,6 @@ export const Login: React.FC = () => {
       return;
     }
 
-    console.log(userPayload)
-
     try {
       await dispatch(login(userPayload));
     } catch (error: any) {
