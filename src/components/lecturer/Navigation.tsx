@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { logout } from '../../redux/slice/authSlice';
 import logoIT from '../../assets/logoIT.png';
 import avatar from '../../assets/user 2.png';
@@ -31,21 +31,21 @@ export const Navigation = () => {
 
   return (
       <div className='nav-panel'>
-        <div className='nav-links'>
+        <div className='nav-NavLinks'>
           <div className='lecturer-logo'>
             <img src={logoIT} alt='' />
           </div>
           <button>
-            <Link to='/'>Dashboard</Link>
+            <NavLink to='/' end>Dashboard</NavLink>
           </button>
           <button>
-            <Link to='/dashboard/lecturer/students'>Students</Link>
+            <NavLink to='/dashboard/lecturer/students'>Students</NavLink>
           </button>
           <button>
-            <Link to='/dashboard/lecturer/submissions'>Submissions</Link>
+            <NavLink to='/dashboard/lecturer/submissions'>Submissions</NavLink>
           </button>
           <button>
-            <Link to='/dashboard/lecturer/drafts'>Draft</Link>
+            <NavLink to='/dashboard/lecturer/drafts'>Draft</NavLink>
           </button>
         </div>
         <div>

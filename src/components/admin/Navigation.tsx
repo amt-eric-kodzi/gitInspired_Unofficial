@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom'
-import avatar from '../../assets/user 2.png';
-import logoIT from '../../assets/logoIT.png';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import logoIT from '../../assets/logoIT.png';
+import avatar from '../../assets/user 2.png';
+import { logout } from '../../redux/slice/authSlice';
 import { RootState } from '../../redux/store';
 import Modal from '../Modal';
 import ModalRoot from '../ModalRoot';
 import Logout from './Logout';
-import { logout } from '../../redux/slice/authSlice';
 
 export const Navigation = () => {
     const dispatch = useDispatch();
@@ -29,13 +29,13 @@ export const Navigation = () => {
         <div className='center'>
           <img src={logoIT} alt='' className='admi_logo' />
           <button>
-            <Link to='dashboard'>Dashboard</Link>
+            <NavLink to='/dashboard' end>Dashboard</NavLink>
           </button>
           <button>
-            <Link to='/dashboard/student'>Student</Link>
+            <NavLink to='/dashboard/student'>Student</NavLink>
           </button>
           <button>
-            <Link to='/dashboard/lecturer'>Lecturer</Link>
+            <NavLink to='/dashboard/lecturer'>Lecturer</NavLink>
           </button>
         </div>
         <div className='avatar_con'>
