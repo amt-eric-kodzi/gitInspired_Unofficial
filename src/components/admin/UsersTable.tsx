@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { Student } from '../../models/Student';
+import { Lecturer } from '../../models/Lecturer';
 
 interface TableProps {
-  data: any[];
+  data: Student[] | Lecturer[];
   itemsPerPage: number;
+  slug: string;
 }
 
-const UsersTable: React.FC<TableProps> = ({ data, itemsPerPage }) => {
+const UsersTable: React.FC<TableProps> = ({ data, itemsPerPage, slug }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const showPreviousPage = (): void => {
@@ -33,10 +36,10 @@ const UsersTable: React.FC<TableProps> = ({ data, itemsPerPage }) => {
           </tr>
         </thead>
         <tbody>
-          {pageData.map((item, index) => (
-            <tr key={index}>
-              <td>{item.staffId}</td>
-              <td>{item.name}</td>
+          {pageData.map((item) => (
+            <tr key={item.userId}>
+              <td>{item.id}</td>
+              <td>{item.firstName + ' ' + item.lastName}</td>
               <td>{item.email}</td>
             </tr>
           ))}

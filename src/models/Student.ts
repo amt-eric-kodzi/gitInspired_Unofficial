@@ -7,7 +7,7 @@ export interface NewStudent {
   export interface Student extends NewStudent {
     id: string;
     userId: string;
-    staffId: string;
+    studentId: string;
   }
 
 export interface StudentsState {

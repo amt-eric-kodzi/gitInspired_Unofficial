@@ -1,26 +1,28 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NewStudent } from '../../models/Student';
 import { useDispatch } from 'react-redux';
-import { addStudent } from '../../redux/slice/studentsSlice';
+import { addStudent, fetchStudents } from '../../redux/slice/studentsSlice';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { AnyAction } from 'redux';
 
 type Prop = {
   path: string;
+  closeModal: Function;
 };
 
-export const AddOneUser = (prop: Prop) => {
+export const AddOneUser = ({path, closeModal}: Prop) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
-  const slug = prop.path;
 
   const form = useForm<NewStudent>();
 
   const { register, handleSubmit } = form;
 
   const onSubmit: SubmitHandler<NewStudent> = async (data) => {
+    closeModal()
     try {
-      slug === 'student' && dispatch(addStudent(data));
-      slug === 'lecturer' && dispatch(addStudent(data));// change to addlec...
+      path === 'student' && dispatch(addStudent(data));
+      dispatch(fetchStudents())
+      path === 'lecturer' && dispatch(addStudent(data)); // change to addlec...
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -28,7 +30,7 @@ export const AddOneUser = (prop: Prop) => {
 
   return (
     <div className='add_one_user'>
-      <h2>Tell us a bit about the {slug} you are adding</h2>
+      <h2>Tell us a bit about the {path} you are adding</h2>
       <span>Please fill the following details to get started</span>
       <form className='input_con' onSubmit={handleSubmit(onSubmit)}>
         <div>

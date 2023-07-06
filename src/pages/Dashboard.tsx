@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { Navigate } from 'react-router-dom';
 import { AdminDashboard } from '../layouts/AdminDashboard';
 import { LecturerDashboard } from '../layouts/LecturerDashboard';
-import { Navigate } from 'react-router-dom';
 import StudentDashboard from '../layouts/StudentDashboard';
+import { RootState } from '../redux/store';
 
 export const Dashboard = () => {
   const user = useSelector((state: RootState) => state.auth.user);

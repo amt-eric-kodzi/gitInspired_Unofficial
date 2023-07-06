@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import api from '../../config/axios';
 import { NewStudent, Student, StudentsState } from '../../models/Student';
 
@@ -12,8 +13,8 @@ export const fetchStudents = createAsyncThunk(
   'students/fetchStudents',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get('/api/students');
-      return response.data;
+      const response = await api.get(`/api/admin/get-students`, { withCredentials: true });
+      return response.data.students;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -24,8 +25,15 @@ export const addStudent = createAsyncThunk(
   'students/addStudent',
   async (newStudent: NewStudent, { rejectWithValue }) => {
     try {
-      const response = await api.post('/api/admin/upload-student', newStudent, {withCredentials: true});
-      return response.data;
+      const response = await toast.promise(
+        api.post('/api/admin/upload-student', newStudent, { withCredentials: true }),
+        {
+          pending: 'Creating student...',
+          success: `Student created successfully.`,
+          error: 'Server timedout while uploading.',
+        },
+      );
+      return response.data.data.student;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -36,7 +44,14 @@ export const updateStudent = createAsyncThunk(
   'students/updateStudent',
   async (updatedStudent: Student, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/api/students/${updatedStudent.id}`, updatedStudent);
+      const response = await toast.promise(
+        api.put(`/api/students/${updatedStudent.id}`, updatedStudent),
+        {
+          pending: 'Updating student...',
+          success: `Student data updated successfully.`,
+          error: 'Server timedout while updating.',
+        },
+      );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -48,7 +63,11 @@ export const deleteStudent = createAsyncThunk(
   'students/deleteStudent',
   async (studentId: string, { rejectWithValue }) => {
     try {
-      await api.delete(`/api/students/${studentId}`);
+      await toast.promise(api.delete(`/api/students/${studentId}`), {
+        pending: 'Deleting student...',
+        success: `Student deleted successfully.`,
+        error: 'Server timedout while deleting.',
+      });
       return studentId;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -58,7 +77,7 @@ export const deleteStudent = createAsyncThunk(
 
 const studentsSlice = createSlice({
   name: 'students',
-  initialState, 
+  initialState,
   reducers: {
     clearStudents(state) {
       state.students = [];

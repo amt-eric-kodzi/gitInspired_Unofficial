@@ -1,20 +1,33 @@
-import { useLocation } from 'react-router-dom';
-import logolearn from '../../assets/logolearn.png';
+import { faCloudArrowUp, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserGraduate, faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AnyAction } from 'redux';
+import logolearn from '../../assets/logolearn.png';
+import { fetchStudents } from '../../redux/slice/studentsSlice';
+import { RootState } from '../../redux/store';
 import Modal from '../Modal';
 import ModalRoot from '../ModalRoot';
-import { useState } from 'react';
-import { AddOneUser } from './AddOneUser';
 import { AddMultipleUsers } from './AddMultipleUsers';
-import UsersTable from './UsersTable';
+import { AddOneUser } from './AddOneUser';
 import { Navigation } from './Navigation';
+import UsersTable from './UsersTable';
 
 export const AllUsers = () => {
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
+  const { students } = useSelector((state: RootState) => state.students);
+  const { lecturers } = useSelector((state: RootState) => state.lecturers);
+
   const location = useLocation();
   const { pathname } = location;
   const slug = pathname.substring(pathname.lastIndexOf('/') + 1);
-  const users_available = true;
+
+  let data;
+  slug === 'student' ? (data = students) : data = lecturers;
 
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
@@ -35,24 +48,16 @@ export const AllUsers = () => {
     setModal2Open(false);
   };
 
-
-  const table: any[] = [];
-  for (var i = 1; i <= 50; i++) {
-    var user = {
-      staffId: 'STF-' + i,
-      name: 'User ' + i,
-      email: 'user' + i + '@example.com'
-    };
-    table.push(user);
-  }
-
+  useEffect(() => {
+    dispatch(fetchStudents());
+  }, []);
 
   return (
-    <div className="">
+    <div className=''>
       <Navigation />
       <div className='allusers_con'>
         <div className='add_users'>
-          <h2>{users_available && slug.charAt(0).toUpperCase() + slug.slice(1) + 's'}</h2>
+          <h2>{data && slug.charAt(0).toUpperCase() + slug.slice(1) + 's'}</h2>
           <div>
             <button className='add_users_bn' onClick={handleOpenModal1}>
               Add new {slug}
@@ -64,8 +69,8 @@ export const AllUsers = () => {
             </button>
           </div>
         </div>
-        {users_available ? (
-          <UsersTable data={table} itemsPerPage={10} />
+        {data ? (
+          <UsersTable data={data} itemsPerPage={10} slug={slug} />
         ) : (
           <div className='users_list'>
             <img src={logolearn} alt='' />
@@ -77,17 +82,15 @@ export const AllUsers = () => {
         )}
         <ModalRoot>
           <Modal isOpen={modal1Open} onClose={handleCloseModal1}>
-            <AddOneUser path={slug} />
+            <AddOneUser path={slug} closeModal={handleCloseModal1} />
           </Modal>
           <Modal isOpen={modal2Open} onClose={handleCloseModal2}>
             <AddMultipleUsers path={slug} />
           </Modal>
         </ModalRoot>
       </div>
+
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };
-
-
-
-
