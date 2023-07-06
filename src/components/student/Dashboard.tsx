@@ -1,8 +1,11 @@
-
+import noDataLogo from '../../assets/noDataLogo.png'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard for student- you will see all assignments here</div>
+    <div className='student-dashboard'>
+    <img src={noDataLogo} alt="" />
+    <div>No assignment yet. Kindly contact your lecturer</div>
+    </div>
   )
 }
 

@@ -1,6 +1,7 @@
 html {
   font-size: 16px;
-  margin: 0 auto;
+  height: 100%;
+  margin: 0;
 }
 
 .error {
@@ -573,6 +574,9 @@ td {
 
 .search-wrapper > input {
   margin-left: 0.5rem;
+  outline: none;
+  display: inline-block;
+  width: 16rem;
 }
 
 .sort-wrapper {
@@ -583,7 +587,7 @@ td {
   font-size: 1.5rem;
   margin-left: 1rem;
 }
-.sort-wrapper > input {
+.sort-wrapper > select {
   border: 1px solid gray;
   padding: 0.3rem 0.5rem;
   border-radius: 5px;
@@ -662,7 +666,7 @@ td {
   outline: none;
 }
 
-.check-box-container{
+.check-box-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -785,4 +789,20 @@ td {
 
 .container div:nth-child(3) > h2 {
   color: #31394e;
+}
+
+/*student-dashboard*/
+.student-home {
+  display: flex;
+  flex-direction: column;
+}
+.student-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+ .active{
+ 
+  border-bottom: 2px solid white;
 }

@@ -3,8 +3,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import image from '../../assets/admin-dashboardimg.png';
 import { RootState } from '../../redux/store';
+import {useState, useEffect} from 'react'
+import api from '../../config/axios';
+
+
+
+
+
+
 
 export const Home = () => {
+
+
+
+  const [students, setStudenst] = useState('')
+  const [lectures, setLectures] = useState('')
+  const [assignments, setAssignments] = useState('')
+  
+  const getLecturers = async()=>{
+   const lect=  await api.get('api/admin/get-lecturers')
+    console.log(lect)
+  }
+  
+  useEffect(()=>{
+    getLecturers()
+  })
+
+
   const user = useSelector((state: RootState) => state.auth.user);
   
   return (
@@ -42,7 +67,7 @@ export const Home = () => {
               </div>
               <div className='users-stats'>
                 <span> 178+</span>
-                <span> Lecturers</span>
+                <span> Students</span>
               </div>
             </div>
             <div></div>
@@ -52,7 +77,7 @@ export const Home = () => {
               </div>
               <div className='users-stats'>
                 <span> 178+</span>
-                <span> Lecturers</span>
+                <span> Assignments Created</span>
               </div>
             </div>
             <div></div>
@@ -62,7 +87,7 @@ export const Home = () => {
               </div>
               <div className='users-stats'>
                 <span> 178+</span>
-                <span> Lecturers</span>
+                <span> Submissions Made</span>
               </div>
             </div>
           </div>
