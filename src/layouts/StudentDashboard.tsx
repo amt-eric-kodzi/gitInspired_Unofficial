@@ -3,10 +3,9 @@ import { Navigation } from '../components/student/Navigation';
 
 const StudentDashboard = () => {
   return (
-    <div>
+    <div className='student-home'>
       <Navigation />
       <Dashboard/>
-      StudentDashboard
     </div>
   );
 };

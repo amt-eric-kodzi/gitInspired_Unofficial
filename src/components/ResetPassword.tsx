@@ -13,7 +13,9 @@ export const ResetPassword = () => {
   const [isMinLength, setIsMinLength] = useState(false);
   const [isUpperCase, setIsUpperCase] = useState(false);
   const [isLowerCase, setIsLowerCase] = useState(false);
+  const [isSymbol, setIsSymbol] = useState(false);
   const [isNumber, setIsNumber] = useState(false);
+  
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -39,6 +41,7 @@ export const ResetPassword = () => {
     const lowercase = /[a-z]/;
     const uppercase = /[A-Z]/;
     const digit = /[0-9]/;
+    const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
     if (e.target.value.length >= 8) {
       setIsMinLength(true);
@@ -62,6 +65,12 @@ export const ResetPassword = () => {
       setIsNumber(true);
     } else {
       setIsNumber(false);
+    }
+
+    if(symbolRegex.test(e.target.value)){
+      setIsSymbol(true);
+    } else {
+      setIsSymbol(false);
     }
 
     setPassword(e.target.value);
@@ -167,6 +176,15 @@ export const ResetPassword = () => {
                       />
                     }{' '}
                     Numbers (0-9)
+                  </span>
+                  <span>
+                    {
+                      <FontAwesomeIcon
+                        icon={isSymbol ? faCheck : faXmark}
+                        className={isSymbol ? 'g' : 'r'}
+                      />
+                    }{' '}
+                    Symbols
                   </span>
                 </div>
               )}
