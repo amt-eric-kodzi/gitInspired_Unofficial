@@ -59,7 +59,6 @@ export const CreateAssignment = () => {
   }
 
   const backgroundColor = ['#FFA9A9','#A9EAFF','#E9A9FF']
-  console.log(studentSearch)
 
   return (
     <div className='create-assignment'>

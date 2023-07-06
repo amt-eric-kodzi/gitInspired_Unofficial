@@ -10,7 +10,7 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk('auth/login', async (payload: User, { rejectWithValue }) => {
   try {
-    const response = await api.post('/api/auth/login', payload, { withCredentials: true });
+    const response = await api.post('/api/auth/login', payload, { withCredentials:true});
     if (response.status !== 200) {
       return rejectWithValue(response.status);
     }

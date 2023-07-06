@@ -28,11 +28,9 @@ export const ResetPassword = () => {
       return;
     }
     try {
-      console.log({ newpassword: password });
-      const response = await axios.post(`/api/auth/reset-password`, { newPassword: password });
-      console.log('Response:', response.data);
+      await axios.post(`/api/auth/reset-password`, { newPassword: password });
     } catch (error) {
-      console.error('Error:', error);
+      //Set errors
     }
   };
 
