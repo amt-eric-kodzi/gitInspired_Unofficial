@@ -1,7 +1,9 @@
-import { faEye, faEyeSlash, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
+import laptop from '../assets/laptop.png';
+import laptoplock from '../assets/laptoplock.png';
 
 export const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,15 +19,15 @@ export const ResetPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const onReset = async (e: { preventDefault: () => void; }) => {
+  const onReset = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (password !== confirmPass) {
       setError(true);
       return;
     }
     try {
-      console.log({newpassword:password})
-      const response = await axios.post(`/api/auth/reset-password`, {newPassword:password});
+      console.log({ newpassword: password });
+      const response = await axios.post(`/api/auth/reset-password`, { newPassword: password });
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -66,67 +68,115 @@ export const ResetPassword = () => {
   };
 
   return (
-    <div className='home_form'>
-      <h1>Reset Password</h1>
-      <form>
+    <div className='home'>
+      <div className='home_bg'>
         <div>
-          <label>New Password</label>
-          <div className={error ? 'red-border input-div' : 'input-div'}>
-            <input
-              required
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={validationHandler}
-              onFocus={() => {
-                setError(false);
-              }}
-              placeholder='Enter your password'
-            />
-            <FontAwesomeIcon
-              icon={showPassword ? faEye : faEyeSlash}
-              onClick={handleTogglePassword}
-            />
-          </div>
-          {error && <span className='error'>Passwords do not match</span>}
-        </div>
+          <h2 className='home_heading'>
+            A Git-Inspired Assignment
+            <br /> submission system
+          </h2>
 
-        <div>
-          <label>Confirm Password</label>
-          <div className={error ? 'red-border input-div' : 'input-div'}>
-            <input
-              required
-              type={showPassword ? 'text' : 'password'}
-              value={confirmPass}
-              onChange={(e) => setConfirmPass(e.target.value)}
-              onFocus={() => {
-                setError(false);
-              }}
-              placeholder='Confirm your password'
-            />
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-          </div>
+          <p className='home_des'>
+            A Git- Inspired Assignment submission system Vorem ipsum dolor sit amet, consectetur
+            adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class
+            aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+          </p>
         </div>
-        <div className='submit-wrapper'>
-          {!noValidationError && (
-            <div className='password-validation'>
-              <h3>Your password must contain</h3>
-              <span>
-                {<FontAwesomeIcon icon={isMinLength ? faCheck : faXmark} className={isMinLength?'g':'r'}/>}  At least 8 Characters
-              </span>
-              <span>
-                {<FontAwesomeIcon icon={isLowerCase ? faCheck : faXmark} className={isLowerCase?'g':'r'}/>}  Lower case letters (a-z)
-              </span>
-              <span>
-                {<FontAwesomeIcon icon={isUpperCase ? faCheck : faXmark} className={isUpperCase?'g':'r'}/>}  Upper case letters (A-Z)
-              </span>
-              <span>{<FontAwesomeIcon icon={isNumber ? faCheck : faXmark} className={isNumber?'g':'r'}/>}  Numbers (0-9)</span>
+        <div className='home_img_con'>
+          <img src={laptop} alt='' />
+          <img src={laptoplock} alt='' className='lock' />
+        </div>
+      </div>
+      <div className='home_form_con'>
+        <div className='home_form'>
+          <h1>Reset Password</h1>
+          <form>
+            <div>
+              <label>New Password</label>
+              <div className={error ? 'red-border input-div' : 'input-div'}>
+                <input
+                  required
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={validationHandler}
+                  onFocus={() => {
+                    setError(false);
+                  }}
+                  placeholder='Enter your password'
+                />
+                <FontAwesomeIcon
+                  icon={showPassword ? faEye : faEyeSlash}
+                  onClick={handleTogglePassword}
+                />
+              </div>
+              {error && <span className='error'>Passwords do not match</span>}
             </div>
-          )}
-          <button type='submit' disabled={error} onClick={onReset}>
-            Reset Password
-          </button>
+
+            <div>
+              <label>Confirm Password</label>
+              <div className={error ? 'red-border input-div' : 'input-div'}>
+                <input
+                  required
+                  type={showPassword ? 'text' : 'password'}
+                  value={confirmPass}
+                  onChange={(e) => setConfirmPass(e.target.value)}
+                  onFocus={() => {
+                    setError(false);
+                  }}
+                  placeholder='Confirm your password'
+                />
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+              </div>
+            </div>
+            <div className='submit-wrapper'>
+              {!noValidationError && (
+                <div className='password-validation'>
+                  <h3>Your password must contain</h3>
+                  <span>
+                    {
+                      <FontAwesomeIcon
+                        icon={isMinLength ? faCheck : faXmark}
+                        className={isMinLength ? 'g' : 'r'}
+                      />
+                    }{' '}
+                    At least 8 Characters
+                  </span>
+                  <span>
+                    {
+                      <FontAwesomeIcon
+                        icon={isLowerCase ? faCheck : faXmark}
+                        className={isLowerCase ? 'g' : 'r'}
+                      />
+                    }{' '}
+                    Lower case letters (a-z)
+                  </span>
+                  <span>
+                    {
+                      <FontAwesomeIcon
+                        icon={isUpperCase ? faCheck : faXmark}
+                        className={isUpperCase ? 'g' : 'r'}
+                      />
+                    }{' '}
+                    Upper case letters (A-Z)
+                  </span>
+                  <span>
+                    {
+                      <FontAwesomeIcon
+                        icon={isNumber ? faCheck : faXmark}
+                        className={isNumber ? 'g' : 'r'}
+                      />
+                    }{' '}
+                    Numbers (0-9)
+                  </span>
+                </div>
+              )}
+              <button type='submit' disabled={error} onClick={onReset}>
+                Reset Password
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

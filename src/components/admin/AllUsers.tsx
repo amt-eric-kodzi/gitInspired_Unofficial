@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { AddOneUser } from './AddOneUser';
 import { AddMultipleUsers } from './AddMultipleUsers';
 import UsersTable from './UsersTable';
+import { Navigation } from './Navigation';
 
 export const AllUsers = () => {
   const location = useLocation();
@@ -47,41 +48,42 @@ export const AllUsers = () => {
 
 
   return (
-    <div className='allusers_con'>
-      <div className='add_users'>
-        <h2>{users_available && slug.charAt(0).toUpperCase() + slug.slice(1) + 's'}</h2>
-        <div>
-          <button className='add_users_bn' onClick={handleOpenModal1}>
-            Add new {slug}
-            <FontAwesomeIcon icon={faUserGraduate} className='icons' />
-          </button>
-          <button onClick={handleOpenModal2}>
-            Upload
-            <FontAwesomeIcon icon={faCloudArrowUp} className='icons' />
-          </button>
+    <div className="">
+      <Navigation />
+      <div className='allusers_con'>
+        <div className='add_users'>
+          <h2>{users_available && slug.charAt(0).toUpperCase() + slug.slice(1) + 's'}</h2>
+          <div>
+            <button className='add_users_bn' onClick={handleOpenModal1}>
+              Add new {slug}
+              <FontAwesomeIcon icon={faUserGraduate} className='icons' />
+            </button>
+            <button onClick={handleOpenModal2}>
+              Upload
+              <FontAwesomeIcon icon={faCloudArrowUp} className='icons' />
+            </button>
+          </div>
         </div>
+        {users_available ? (
+          <UsersTable data={table} itemsPerPage={10} />
+        ) : (
+          <div className='users_list'>
+            <img src={logolearn} alt='' />
+            <span>
+              Oops, no {slug} created or uploaded yet. Click on any of the buttons above to get
+              started
+            </span>
+          </div>
+        )}
+        <ModalRoot>
+          <Modal isOpen={modal1Open} onClose={handleCloseModal1}>
+            <AddOneUser path={slug} />
+          </Modal>
+          <Modal isOpen={modal2Open} onClose={handleCloseModal2}>
+            <AddMultipleUsers path={slug} />
+          </Modal>
+        </ModalRoot>
       </div>
-      {users_available ? (
-        <UsersTable data={table} itemsPerPage={10} />
-      ) : (
-        <div className='users_list'>
-          <img src={logolearn} alt='' />
-          <span>
-            Oops, no {slug} created or uploaded yet. Click on any of the buttons above to get
-            started
-          </span>
-        </div>
-      )}
-
-      <ModalRoot>
-        <Modal isOpen={modal1Open} onClose={handleCloseModal1}>
-          <AddOneUser path={slug} />
-        </Modal>
-
-        <Modal isOpen={modal2Open} onClose={handleCloseModal2}>
-          <AddMultipleUsers path={slug} />
-        </Modal>
-      </ModalRoot>
     </div>
   );
 };

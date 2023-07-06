@@ -1,44 +1,47 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Login } from './components/Login';
 import { ResetPassword } from './components/ResetPassword';
 import { AllUsers } from './components/admin/AllUsers';
-import { Dashboard as AdminDashboardHome } from './components/admin/Dashboard';
-import { DashboardL as LecturerDashboardHome } from './components/lecturer/DashboardL';
 import { Drafts } from './components/lecturer/Drafts';
 import { Students } from './components/lecturer/Students';
 import Submissions from './components/lecturer/Submissions';
-import { AdminDashboard } from './pages/AdminDashboard';
+import { Dashboard } from './pages/Dashboard';
 import { Home } from './pages/Home';
-import { LecturerDashboard } from './pages/LecturerDashboard';
-import { AuthState } from './redux/slice/authSlice';
+import { RootState } from './redux/store';
 
 function App() {
-  //const isAuthenticated = useSelector((state: AuthState) => state.isAuthenticated);
-  const isAuthenticated = true;
+  const state = useSelector((state: RootState ) => state.auth);
 
   return (
     <Router>
       <Routes>
-        <Route path='/' element={isAuthenticated ? <Navigate to='dashboard' /> : <Home />}>
+        <Route path='/' element={state.isAuthenticated ? <Navigate to='dashboard' /> : <Home />}>
           <Route index element={<Login />} />
-          <Route path='resetpassword' element={<ResetPassword />} />
         </Route>
 
+        <Route path='dashboard' element={state.isAuthenticated ? <Outlet /> : <Navigate to='/' />}>
+          <Route index element={<Dashboard></Dashboard>} />
+          <Route path='lecturer' element={state.user?.role === 'ADMIN' && <AllUsers />} />
+          <Route path='student' element={state.user?.role === 'ADMIN' && <AllUsers />} />
+          <Route
+            path='lecturer/students'
+            element={state.user?.role === 'LECTURER' ? <Students /> : <Navigate to='/' />}
+          />
+          <Route
+            path='lecturer/submissions'
+            element={state.user?.role === 'LECTURER' ? <Submissions /> : <Navigate to='/' />}
+          />
+          <Route
+            path='lecturer/drafts'
+            element={state.user?.role === 'LECTURER' ? <Drafts /> : <Navigate to='/' />}
+          />
+        </Route>
+        
         <Route
-          path='dashboard'
-          element={isAuthenticated ? <AdminDashboard /> : <Navigate to='/' />}
-        >
-          <Route index element={<AdminDashboardHome />} />
-          <Route path='lecturer' element={<AllUsers />} />
-          <Route path='student' element={<AllUsers />} />
-        </Route>
-        <Route path='lecturerdashboard' element={<LecturerDashboard />}>
-          <Route index element={<LecturerDashboardHome />} />
-          <Route path='lecturerstudent' element={<Students />} />
-          <Route path='lecturersubmission' element={<Submissions />} />
-          <Route path='lecturerdraft' element={<Drafts />} />
-        </Route>
+          path='resetpassword'
+          element={state.isAuthenticated ? <ResetPassword /> : <Navigate to='/' />}
+        />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>

@@ -1,40 +1,33 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import axios from '../../config/axios';
-
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { NewStudent } from '../../models/Student';
+import { useDispatch } from 'react-redux';
+import { addStudent } from '../../redux/slice/studentsSlice';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { AnyAction } from 'redux';
 
 type Prop = {
   path: string;
 };
 
 export const AddOneUser = (prop: Prop) => {
- // console.log(prop.path);
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
   const slug = prop.path;
-  type FormData = {
-    email: string;
-    lastName: string;
-    firstName: string;
-  };
 
- 
-  const form = useForm<FormData>();
+  const form = useForm<NewStudent>();
 
   const { register, handleSubmit } = form;
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<NewStudent> = async (data) => {
     try {
-      const response = await axios.post(`/api/admin/upload-${slug}`, data);
-      console.log(data);
-      console.log('Response:', response.data);
+      dispatch(addStudent(data));
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Login failed:', error);
     }
   };
 
   return (
     <div className='add_one_user'>
-      <h2>
-        Tell us a bit about the {slug} you are adding
-      </h2>
+      <h2>Tell us a bit about the {slug} you are adding</h2>
       <span>Please fill the following details to get started</span>
       <form className='input_con' onSubmit={handleSubmit(onSubmit)}>
         <div>

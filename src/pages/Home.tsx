@@ -1,15 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
 import laptop from '../assets/laptop.png';
-import laptoplock from '../assets/laptoplock.png';
+import { Login } from '../components/Login';
 
 export const Home = () => {
-  const [isReset, setIsReset] = useState(false);
-  let location = useLocation();
-  useEffect(() => {
-    let path = location.pathname;
-    if (path === '/resetpassword') setIsReset(true);
-  }, []);
 
   return (
     <div className='home'>
@@ -28,11 +20,10 @@ export const Home = () => {
         </div>
         <div className='home_img_con'>
           <img src={laptop} alt='' />
-          {isReset ? <img src={laptoplock} alt='' className='lock' /> : ''}
         </div>
       </div>
       <div className='home_form_con'>
-        <Outlet />
+        <Login/>
       </div>
     </div>
   );

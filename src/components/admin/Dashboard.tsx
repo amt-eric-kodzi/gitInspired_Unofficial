@@ -1,14 +1,18 @@
-import image from '../../assets/admin-dashboardimg.png';
+import { faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserGraduate} from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+import image from '../../assets/admin-dashboardimg.png';
+import { RootState } from '../../redux/store';
 
-export const Dashboard = () => {
+export const Home = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  
   return (
     <div className='admin-dashboard'>
       <div className='admin-dashboard-left'>
         <div className='left-top'>
           <div>
-            <h2>Welcome back, Ella</h2>
+            <h2>Welcome back, {user?.firstName ? `${user?.firstName}` : 'Admin'}</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud

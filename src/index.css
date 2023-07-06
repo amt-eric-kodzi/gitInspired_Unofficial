@@ -711,14 +711,16 @@ td {
   font-family: serif;
 }
 .assignment-list-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 3rem;
+  row-gap: 3rem;
   flex-wrap: wrap;
   width: 80%;
 }
 
 .assignments-list-item {
   border-radius: 10px;
-  margin: 2rem;
   overflow: hidden;
   box-shadow: 0 0 2px rgba(11, 11, 11, 0.7);
 }

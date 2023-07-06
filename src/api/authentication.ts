@@ -7,6 +7,7 @@ export const onLogin = async (data: User) => {
 
   return res;
 };
+
 export const onLogout = async () => {
   const res = await api.post('/api/auth/logout', { withCredentials:true});
   console.log(res)

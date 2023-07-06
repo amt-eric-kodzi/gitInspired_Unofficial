@@ -1,31 +1,40 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { onLogin } from '../api/authentication';
+import { AnyAction } from 'redux';
+import { User } from '../models/User';
 import { login } from '../redux/slice/authSlice';
 
 export const Login: React.FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [loginId, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
+
+  const user: User = {
+    loginId: '',
+    password: '',
+  };
+  const [userPayload, setUserPayload] = useState(user);
   const [showPassword, setShowPassword] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
   const [loginError, setLoginError] = useState('');
-  //const [user, setUser] = useState(null)
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+    setUserPayload({
+      ...userPayload,
+      loginId: event.target.value,
+    });
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    setUserPayload({
+      ...userPayload,
+      password: event.target.value,
+    });
   };
 
   const clearErrors = () => {
@@ -34,24 +43,21 @@ export const Login: React.FC = () => {
   };
   const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!emailPattern.test(loginId)) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!emailPattern.test(userPayload.loginId)) {
       setIsEmailError(true);
       return;
     }
 
-    await onLogin({ loginId, password })
-      .then((res) => {
-        if (res.status === 200) {
-          //setUser(res.user)
-          dispatch(login());
-          navigate('/dashboard');
-        }
-      })
-      .catch((err) => {
-        return setLoginError(err.response.data.message);
-      });
+    console.log(userPayload)
+
+    try {
+      await dispatch(login(userPayload));
+    } catch (error: any) {
+      return setLoginError(error.response.data.message);
+    }
   };
 
   return (
@@ -65,7 +71,7 @@ export const Login: React.FC = () => {
             <input
               type='text'
               id='username'
-              value={loginId}
+              value={userPayload.loginId}
               onChange={handleUsernameChange}
               onFocus={clearErrors}
               required
@@ -79,7 +85,7 @@ export const Login: React.FC = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               id='password'
-              value={password}
+              value={userPayload.password}
               onChange={handlePasswordChange}
               onFocus={clearErrors}
               required
