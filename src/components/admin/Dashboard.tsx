@@ -7,14 +7,19 @@ import { AnyAction } from 'redux';
 import image from '../../assets/admin-dashboardimg.png';
 import { RootState } from '../../redux/store';
 import { fetchLecturers } from '../../redux/slice/lecturersSlice';
+import { fetchAssignments } from '../../redux/slice/assignmentsSlice';
+import { fetchStudents } from '../../redux/slice/studentsSlice';
 
 export const Home = () => {
   const { lecturers } = useSelector((state: RootState) => state.lecturers);
   const { students } = useSelector((state: RootState) => state.students);
+  const { assignments } = useSelector((state: RootState) => state.assignments);
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
 
   useEffect(() => {
     dispatch(fetchLecturers());
+    dispatch(fetchAssignments());
+    dispatch(fetchStudents());
   }, []);
 
   const user = useSelector((state: RootState) => state.auth.user);
@@ -63,7 +68,7 @@ export const Home = () => {
                 <FontAwesomeIcon icon={faUserGraduate} />
               </div>
               <div className='users-stats'>
-                <span> 178+</span>
+                <span> {assignments.length}</span>
                 <span> Assignments Created</span>
               </div>
             </div>
@@ -73,7 +78,7 @@ export const Home = () => {
                 <FontAwesomeIcon icon={faUserGraduate} />
               </div>
               <div className='users-stats'>
-                <span> 178+</span>
+                <span> 0</span>
                 <span> Submissions Made</span>
               </div>
             </div>

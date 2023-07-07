@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AnyAction } from 'redux';
 import { User } from '../models/User';
 import { login } from '../redux/slice/authSlice';
@@ -55,6 +57,7 @@ export const Login: React.FC = () => {
     try {
       await dispatch(login(userPayload));
     } catch (error: any) {
+      console.log(error.response.data.message)
       return setLoginError(error.response.data.message);
     }
   };
@@ -97,6 +100,7 @@ export const Login: React.FC = () => {
         </div>
         <button type='submit'>Login</button>
       </form>
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };

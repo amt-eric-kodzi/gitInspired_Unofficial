@@ -2,6 +2,12 @@ import upload from '../../assets/upload.png';
 import { useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import api from '../../config/axios';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { AnyAction } from 'redux';
+import { fetchLecturers } from '../../redux/slice/lecturersSlice';
+import { fetchStudents } from '../../redux/slice/studentsSlice';
 
 const baseStyle = {
   flex: 1,
@@ -27,9 +33,11 @@ const rejectStyle = {
 
 type Prop = {
   path: string;
+  closeModal: Function;
 };
 
 export const AddMultipleUsers = (prop: Prop) => {
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
   // ------------Drag n Drop------------
   const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
@@ -51,6 +59,7 @@ export const AddMultipleUsers = (prop: Prop) => {
   const [acceptedFileItems, setAcceptedFileItems] = useState('');
 
   useEffect(() => {
+    dispatch(fetchStudents());
     const x = acceptedFiles.map((file) => {
       return `${file.name} - ${file.size} bytes`;
     });
@@ -62,17 +71,24 @@ export const AddMultipleUsers = (prop: Prop) => {
   //const [isFileErrorMessage, setFileErrorMessage] = useState(false);
 
   const uploadFile = async () => {
+    prop.closeModal();
     if (!acceptedFiles[0]) {
       //setFileErrorMessage(true);
     } else {
       let formData = new FormData();
       formData.append('file', acceptedFiles[0]);
-      await api
-        .post(`/api/admin/upload-${slug}s-info`, formData, { withCredentials: true })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => console.log(err));
+
+      await toast.promise(
+        api.post(`/api/admin/upload-${slug}s-info`, formData, { withCredentials: true }),
+        {
+          pending: `Uploading ${slug}...`,
+          success: `Upload done.`,
+          error: 'Upload failed.',
+        },
+      );
+
+      await dispatch(fetchLecturers())
+      await dispatch(fetchStudents())
     }
   };
   return (

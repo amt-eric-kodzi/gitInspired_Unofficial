@@ -53,7 +53,7 @@ export const AdminLecturers = () => {
       <Navigation />
       <div className='allusers_con'>
         <div className='add_users'>
-          <h2>{lecturers && slug.charAt(0).toUpperCase() + slug.slice(1) + 's'}</h2>
+          <h2>Lecturers</h2>
           <div>
             <button className='add_users_bn' onClick={handleOpenModal1}>
               Add new {slug}
@@ -65,7 +65,7 @@ export const AdminLecturers = () => {
             </button>
           </div>
         </div>
-        {lecturers ? (
+        {lecturers.length > 0 ? (
           <UsersTable data={lecturers} itemsPerPage={10} />
         ) : (
           <div className='users_list'>
@@ -81,12 +81,12 @@ export const AdminLecturers = () => {
             <AddOneUser path={slug} closeModal={handleCloseModal1} />
           </Modal>
           <Modal isOpen={modal2Open} onClose={handleCloseModal2}>
-            <AddMultipleUsers path={slug} />
+            <AddMultipleUsers path={slug} closeModal={handleCloseModal2}  />
           </Modal>
         </ModalRoot>
       </div>
 
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };

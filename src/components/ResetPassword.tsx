@@ -3,15 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AnyAction } from 'redux';
 import laptop from '../assets/laptop.png';
 import laptoplock from '../assets/laptoplock.png';
 import { resetPassword } from '../redux/slice/authSlice';
-import { useNavigate } from 'react-router-dom';
 
 export const ResetPassword = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -35,7 +37,7 @@ export const ResetPassword = () => {
     }
     try {
       await dispatch(resetPassword({ newPassword: password }));
-      navigate('/dashboard')
+      navigate('/dashboard');
     } catch (error) {
       //Set errors
     }
@@ -200,6 +202,7 @@ export const ResetPassword = () => {
           </form>
         </div>
       </div>
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };
