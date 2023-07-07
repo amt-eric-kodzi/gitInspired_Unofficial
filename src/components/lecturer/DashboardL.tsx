@@ -1,6 +1,6 @@
 import { faCopy, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export const DashboardL = () => {
   const assignments = [
@@ -50,8 +50,12 @@ export const DashboardL = () => {
       <h1>All Assignments</h1>
       <div className='assignment-list-wrapper'>
         {assignments.map((assignment, index) => (
-          <Link to='/dashboard/lecturer/submissions'>
-            <div key={index} className='assignments-list-item'>
+          <NavLink to='/dashboard/lecturer/submissions'>
+          <div key={index} className='assignments-list-item'>
+            <div>
+              <h2>{assignment.title.toLocaleUpperCase()}</h2>
+            </div>
+            <div className='container'>
               <div>
                 <h2>{assignment.title.toLocaleUpperCase()}</h2>
               </div>
@@ -72,7 +76,8 @@ export const DashboardL = () => {
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
+          </NavLink>
         ))}
       </div>
     </>
