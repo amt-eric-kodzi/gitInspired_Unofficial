@@ -51,27 +51,27 @@ export const DashboardL = () => {
       <div className='assignment-list-wrapper'>
         {assignments.map((assignment, index) => (
           <Link to='/dashboard/lecturer/submissions'>
-          <div key={index} className='assignments-list-item'>
-            <div>
-              <h2>{assignment.title.toLocaleUpperCase()}</h2>
+            <div key={index} className='assignments-list-item'>
+              <div>
+                <h2>{assignment.title.toLocaleUpperCase()}</h2>
+              </div>
+              <div className='container'>
+                <div>
+                  <h2>Description</h2>
+                  <p>{assignment.description}</p>
+                </div>
+                <div>
+                  <span className='r'>{assignment.deadline}</span>
+                  <FontAwesomeIcon icon={faUserPlus} className='add-user-icon' />
+                </div>
+                <div>
+                  <h2>Unique Code</h2>
+                  <p>
+                    {assignment.code} <FontAwesomeIcon icon={faCopy} />
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className='container'>
-              <div>
-                <h2>Description</h2>
-                <p>{assignment.description}</p>
-              </div>
-              <div>
-                <span className='r'>{assignment.deadline}</span>
-                <FontAwesomeIcon icon={faUserPlus} className='add-user-icon' />
-              </div>
-              <div>
-                <h2>Unique Code</h2>
-                <p>
-                  {assignment.code} <FontAwesomeIcon icon={faCopy} />
-                </p>
-              </div>
-            </div>
-          </div>
           </Link>
         ))}
       </div>

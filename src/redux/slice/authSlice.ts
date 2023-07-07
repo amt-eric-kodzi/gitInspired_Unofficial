@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-import { AuthState, Profile, User } from '../../models/User';
+import { AuthState, Profile, ResetPassword, User } from '../../models/User';
 import api from '../../config/axios';
 
 const initialState: AuthState = {
@@ -10,7 +10,7 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk('auth/login', async (payload: User, { rejectWithValue }) => {
   try {
-    const response = await api.post('/api/auth/login', payload, { withCredentials:true});
+    const response = await api.post('/api/auth/login', payload, { withCredentials: true });
     if (response.status !== 200) {
       return rejectWithValue(response.status);
     }
@@ -22,13 +22,26 @@ export const login = createAsyncThunk('auth/login', async (payload: User, { reje
   }
 });
 
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async (payload: ResetPassword, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/api/auth/reset-password`, payload, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout(state) {
       Cookies.remove('connect.sid');
-
       state.isAuthenticated = false;
       state.user = null;
     },
@@ -41,6 +54,10 @@ const authSlice = createSlice({
     builder.addCase(login.rejected, (state) => {
       state.isAuthenticated = false;
       state.user = null;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action: PayloadAction<{isVerified:boolean}>) => {
+      const { isVerified } = action.payload;
+      state.user!.isVerified = isVerified;
     });
   },
 });

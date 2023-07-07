@@ -17,7 +17,7 @@ import { AddOneUser } from './AddOneUser';
 import { Navigation } from './Navigation';
 import UsersTable from './UsersTable';
 
-export const AllUsers = () => {
+export const Students = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
   const { students } = useSelector((state: RootState) => state.students);
   const { lecturers } = useSelector((state: RootState) => state.lecturers);
@@ -27,7 +27,7 @@ export const AllUsers = () => {
   const slug = pathname.substring(pathname.lastIndexOf('/') + 1);
 
   let data;
-  slug === 'student' ? (data = students) : data = lecturers;
+  slug === 'student' ? (data = students) : (data = lecturers);
 
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
@@ -70,7 +70,7 @@ export const AllUsers = () => {
           </div>
         </div>
         {data ? (
-          <UsersTable data={data} itemsPerPage={10} slug={slug} />
+          <UsersTable data={data} itemsPerPage={10} />
         ) : (
           <div className='users_list'>
             <img src={logolearn} alt='' />

@@ -4,13 +4,14 @@ import { useDispatch } from 'react-redux';
 import { addStudent, fetchStudents } from '../../redux/slice/studentsSlice';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { AnyAction } from 'redux';
+import { addLecturer } from '../../redux/slice/lecturersSlice';
 
 type Prop = {
   path: string;
   closeModal: Function;
 };
 
-export const AddOneUser = ({path, closeModal}: Prop) => {
+export const AddOneUser = ({ path, closeModal }: Prop) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
 
   const form = useForm<NewStudent>();
@@ -18,13 +19,13 @@ export const AddOneUser = ({path, closeModal}: Prop) => {
   const { register, handleSubmit } = form;
 
   const onSubmit: SubmitHandler<NewStudent> = async (data) => {
-    closeModal()
+    closeModal();
     try {
       path === 'student' && dispatch(addStudent(data));
-      dispatch(fetchStudents())
-      path === 'lecturer' && dispatch(addStudent(data)); // change to addlec...
+      dispatch(fetchStudents());
+      path === 'lecturer' && dispatch(addLecturer(data));
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Upload failed:', error);
     }
   };
 
