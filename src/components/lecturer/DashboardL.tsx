@@ -56,9 +56,6 @@ export const DashboardL = () => {
               <h2>{assignment.title.toLocaleUpperCase()}</h2>
             </div>
             <div className='container'>
-              <div>
-                <h2>{assignment.title.toLocaleUpperCase()}</h2>
-              </div>
               <div className='container'>
                 <div>
                   <h2>Description</h2>
