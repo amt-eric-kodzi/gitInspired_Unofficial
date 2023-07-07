@@ -1,7 +1,7 @@
 import { Navigation } from './Navigation';
 import { SearchBar } from './SearchBar';
 
-const Submissions = () => {
+export const Submissions = () => {
   return (
     <div className="lecturer-home">
       <Navigation />
@@ -12,4 +12,3 @@ const Submissions = () => {
   );
 };
 
-export default Submissions;

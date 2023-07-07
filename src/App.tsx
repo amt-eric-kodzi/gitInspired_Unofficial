@@ -5,7 +5,8 @@ import { ResetPassword } from './components/ResetPassword';
 import { AllUsers } from './components/admin/AllUsers';
 import { Drafts } from './components/lecturer/Drafts';
 import { Students } from './components/lecturer/Students';
-import {Submissions} from './components/student/Submissions';
+import {Submissions as StudentSubmission} from './components/student/Submissions';
+import {Submissions as LecturerSubmission} from './components/lecturer/Submissions'
 import { Dashboard } from './pages/Dashboard';
 import { Home } from './pages/Home';
 import { RootState } from './redux/store';
@@ -30,7 +31,7 @@ function App() {
           />
           <Route
             path='lecturer/submissions'
-            element={state.user?.role === 'LECTURER' ? <Submissions /> : <Navigate to='/' />}
+            element={state.user?.role === 'LECTURER' ? <LecturerSubmission /> : <Navigate to='/' />}
           />
           <Route
             path='lecturer/drafts'
@@ -38,7 +39,7 @@ function App() {
           />
           <Route
             path='student/submissions'
-            element={state.user?.role === 'STUDENT' ? <Submissions /> : <Navigate to='/' />}
+            element={state.user?.role === 'STUDENT' ? <StudentSubmission /> : <Navigate to='/' />}
           />
         </Route>
         
