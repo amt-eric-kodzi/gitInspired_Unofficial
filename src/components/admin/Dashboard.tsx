@@ -1,37 +1,29 @@
 import { faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector } from 'react-redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AnyAction } from 'redux';
 import image from '../../assets/admin-dashboardimg.png';
 import { RootState } from '../../redux/store';
-import {useState, useEffect} from 'react'
-import api from '../../config/axios';
-
-
-
-
-
-
+import { fetchLecturers } from '../../redux/slice/lecturersSlice';
+import { fetchAssignments } from '../../redux/slice/assignmentsSlice';
+import { fetchStudents } from '../../redux/slice/studentsSlice';
 
 export const Home = () => {
+  const { lecturers } = useSelector((state: RootState) => state.lecturers);
+  const { students } = useSelector((state: RootState) => state.students);
+  const { assignments } = useSelector((state: RootState) => state.assignments);
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
 
-
-
-  const [students, setStudenst] = useState('')
-  const [lectures, setLectures] = useState('')
-  const [assignments, setAssignments] = useState('')
-  
-  const getLecturers = async()=>{
-   const lect=  await api.get('api/admin/get-lecturers')
-    console.log(lect)
-  }
-  
-  useEffect(()=>{
-    getLecturers()
-  })
-
+  useEffect(() => {
+    dispatch(fetchLecturers());
+    dispatch(fetchAssignments());
+    dispatch(fetchStudents());
+  }, []);
 
   const user = useSelector((state: RootState) => state.auth.user);
-  
+
   return (
     <div className='admin-dashboard'>
       <div className='admin-dashboard-left'>
@@ -57,7 +49,7 @@ export const Home = () => {
                 <FontAwesomeIcon icon={faUserGraduate} />
               </div>
               <div className='users-stats'>
-                <span> 178+</span>
+                <span> {lecturers.length}</span>
                 <span> Lecturers</span>
               </div>
             </div>
@@ -66,7 +58,7 @@ export const Home = () => {
                 <FontAwesomeIcon icon={faUserGraduate} />
               </div>
               <div className='users-stats'>
-                <span> 178+</span>
+                <span> {students.length}</span>
                 <span> Students</span>
               </div>
             </div>
@@ -76,7 +68,7 @@ export const Home = () => {
                 <FontAwesomeIcon icon={faUserGraduate} />
               </div>
               <div className='users-stats'>
-                <span> 178+</span>
+                <span> {assignments.length}</span>
                 <span> Assignments Created</span>
               </div>
             </div>
@@ -86,7 +78,7 @@ export const Home = () => {
                 <FontAwesomeIcon icon={faUserGraduate} />
               </div>
               <div className='users-stats'>
-                <span> 178+</span>
+                <span> 0</span>
                 <span> Submissions Made</span>
               </div>
             </div>

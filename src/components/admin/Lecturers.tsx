@@ -17,17 +17,13 @@ import { AddOneUser } from './AddOneUser';
 import { Navigation } from './Navigation';
 import UsersTable from './UsersTable';
 
-export const AllUsers = () => {
+export const AdminLecturers = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
-  const { students } = useSelector((state: RootState) => state.students);
   const { lecturers } = useSelector((state: RootState) => state.lecturers);
 
   const location = useLocation();
   const { pathname } = location;
   const slug = pathname.substring(pathname.lastIndexOf('/') + 1);
-
-  let data;
-  slug === 'student' ? (data = students) : data = lecturers;
 
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
@@ -57,7 +53,7 @@ export const AllUsers = () => {
       <Navigation />
       <div className='allusers_con'>
         <div className='add_users'>
-          <h2>{data && slug.charAt(0).toUpperCase() + slug.slice(1) + 's'}</h2>
+          <h2>Lecturers</h2>
           <div>
             <button className='add_users_bn' onClick={handleOpenModal1}>
               Add new {slug}
@@ -69,8 +65,8 @@ export const AllUsers = () => {
             </button>
           </div>
         </div>
-        {data ? (
-          <UsersTable data={data} itemsPerPage={10} slug={slug} />
+        {lecturers.length > 0 ? (
+          <UsersTable data={lecturers} itemsPerPage={10} />
         ) : (
           <div className='users_list'>
             <img src={logolearn} alt='' />
@@ -85,12 +81,12 @@ export const AllUsers = () => {
             <AddOneUser path={slug} closeModal={handleCloseModal1} />
           </Modal>
           <Modal isOpen={modal2Open} onClose={handleCloseModal2}>
-            <AddMultipleUsers path={slug} />
+            <AddMultipleUsers path={slug} closeModal={handleCloseModal2}  />
           </Modal>
         </ModalRoot>
       </div>
 
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };

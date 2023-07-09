@@ -1,22 +1,20 @@
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../Modal';
 import ModalRoot from '../ModalRoot';
 import { CreateAssignment } from './CreateAssignment';
-import React from 'react'
 
 export const SearchBar = () => {
   const [isCreateAssignment, setIsCreateAssignemnt] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [searchText, setSearchText] = useState('');
 
-
-
-
-  const sortByHandler = (event: React.ChangeEvent<HTMLSelectElement> )=>{
-    setSortBy(event.target.value)
-  }
+  const sortByHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(event.target.value);
+  };
 
   const openModal = () => {
     setIsCreateAssignemnt(true);
@@ -26,13 +24,19 @@ export const SearchBar = () => {
     setIsCreateAssignemnt(false);
   };
 
-  console.log(searchText)
   return (
     <div>
       <div className='search-panel'>
         <div className='search-wrapper'>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <input type='text' placeholder='Search' onChange={(e)=>{setSearchText(e.target.value)}} value={searchText}/>
+          <input
+            type='text'
+            placeholder='Search'
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            value={searchText}
+          />
         </div>
         <div className='sort-wrapper'>
           <select onChange={sortByHandler} value={sortBy}>
@@ -49,9 +53,10 @@ export const SearchBar = () => {
 
       <ModalRoot>
         <Modal isOpen={isCreateAssignment} onClose={closeModal}>
-          <CreateAssignment />
+          <CreateAssignment closeModal={closeModal} />
         </Modal>
       </ModalRoot>
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };

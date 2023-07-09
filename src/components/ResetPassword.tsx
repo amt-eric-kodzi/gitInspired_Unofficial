@@ -1,11 +1,20 @@
 import { faCheck, faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { ChangeEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AnyAction } from 'redux';
 import laptop from '../assets/laptop.png';
 import laptoplock from '../assets/laptoplock.png';
+import { resetPassword } from '../redux/slice/authSlice';
 
 export const ResetPassword = () => {
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
@@ -15,7 +24,6 @@ export const ResetPassword = () => {
   const [isLowerCase, setIsLowerCase] = useState(false);
   const [isSymbol, setIsSymbol] = useState(false);
   const [isNumber, setIsNumber] = useState(false);
-  
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -28,7 +36,8 @@ export const ResetPassword = () => {
       return;
     }
     try {
-      await axios.post(`/api/auth/reset-password`, { newPassword: password });
+      await dispatch(resetPassword({ newPassword: password }));
+      navigate('/dashboard');
     } catch (error) {
       //Set errors
     }
@@ -65,7 +74,7 @@ export const ResetPassword = () => {
       setIsNumber(false);
     }
 
-    if(symbolRegex.test(e.target.value)){
+    if (symbolRegex.test(e.target.value)) {
       setIsSymbol(true);
     } else {
       setIsSymbol(false);
@@ -193,6 +202,7 @@ export const ResetPassword = () => {
           </form>
         </div>
       </div>
+      <ToastContainer autoClose={3000} />
     </div>
   );
 };

@@ -1,33 +1,30 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { logout } from '../../redux/slice/authSlice';
 import logoIT from '../../assets/logoIT.png';
 import avatar from '../../assets/user 2.png';
+import { logout } from '../../redux/slice/authSlice';
 import { RootState } from '../../redux/store';
 import Modal from '../Modal';
 import ModalRoot from '../ModalRoot';
 import Logout from '../admin/Logout';
-import { useState } from 'react';
 
 export const Navigation = () => {
-    const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
 
   const [logoutModal, setLogout] = useState(false);
-    const openLogoutModal = () => {
-      setLogout(true);
-    };
-  
-    const closeLogoutModal = () => {
-      setLogout(false);
-    };
-  
-    
+  const openLogoutModal = () => {
+    setLogout(true);
+  };
+
+  const closeLogoutModal = () => {
+    setLogout(false);
+  };
 
   const userLogout = () => {
     dispatch(logout());
   };
-
 
   return (
       <div className='nav-panel'>
@@ -57,9 +54,9 @@ export const Navigation = () => {
         </div>
         <ModalRoot>
         <Modal isOpen={logoutModal} onClose={closeLogoutModal}>
-          <Logout signout={userLogout} cancel={closeLogoutModal}/>
+          <Logout signout={userLogout} cancel={closeLogoutModal} />
         </Modal>
       </ModalRoot>
-      </div>
+    </div>
   );
 };

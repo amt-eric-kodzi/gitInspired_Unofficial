@@ -19,3 +19,7 @@ export interface AuthState {
   isAuthenticated: boolean;
   user: Profile | null;
 }
+
+export interface ResetPassword{
+  newPassword: string;
+}

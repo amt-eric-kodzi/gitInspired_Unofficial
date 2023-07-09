@@ -1,14 +1,27 @@
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { AnyAction } from 'redux';
+import { Student } from '../../models/Student';
+import { addAssignment } from '../../redux/slice/assignmentsSlice';
+import { RootState } from '../../redux/store';
 
-export const CreateAssignment = () => {
+type props = {
+  closeModal: Function
+}
+
+export const CreateAssignment = ({closeModal}:props) => {
+  const studentsList = useSelector((state: RootState) => state.students.students);
+  const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
+
   const [description, setDescription] = useState('');
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+  const [students, setstudents] = useState<string[]>([]);
   const [studentSearch, setStudentSearch] = useState('');
 
   const handleDescription = (value: string) => {
@@ -24,17 +37,16 @@ export const CreateAssignment = () => {
     setDeadline(formattedDate);
   };
 
-
   const handleStudentSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudentSearch(event.target.value);
   };
 
   const handleInvite = (event: React.ChangeEvent<HTMLInputElement>, item: string) => {
     if (event.target.checked) {
-      setSelectedEmails([...selectedEmails, item]);
+      setstudents([...students, item]);
     } else {
-      const updatedItems = selectedEmails.filter((checkedItem) => checkedItem !== item);
-      setSelectedEmails(updatedItems);
+      const updatedItems = students.filter((checkedItem) => checkedItem !== item);
+      setstudents(updatedItems);
     }
   };
 
@@ -44,21 +56,13 @@ export const CreateAssignment = () => {
     return formattedDate;
   };
 
-  const showdata = () => {
-    console.log({ description, title, deadline, selectedEmails });
+  const createAssignment = async (status: string) => {
+    let data = { description, title, deadline, students, status };
+    closeModal()
+    await dispatch(addAssignment(data));
   };
 
-  const students: any[] = [];
-  for (var i = 1; i <= 10; i++) {
-    var user = {
-      staffId: 'STF-' + i,
-      name: 'User ' + i,
-      email: 'user' + i + '@example.com',
-    };
-    students.push(user);
-  }
-
-  const backgroundColor = ['#FFA9A9','#A9EAFF','#E9A9FF']
+  const backgroundColor = ['#FFA9A9', '#A9EAFF', '#E9A9FF'];
 
   return (
     <div className='create-assignment'>
@@ -84,29 +88,39 @@ export const CreateAssignment = () => {
           <ReactQuill value={description} onChange={handleDescription} />
         </div>
         <div className='publish-draft'>
-          <button onClick={showdata}>Save and Publish</button>
-          <button>Save as Draft</button>
+          <button onClick={() => createAssignment('PUBLISHED')}>Save and Publish</button>
+          <button onClick={() => createAssignment('DRAFT')}>Save as Draft</button>
         </div>
       </div>
       <div className='invite-student'>
         <h2>Invite Student</h2>
         <div className='invite-students-search'>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          <input type='text' placeholder='Search' onChange={handleStudentSearch} value={studentSearch}/>
+          <input
+            type='text'
+            placeholder='Search'
+            onChange={handleStudentSearch}
+            value={studentSearch}
+          />
           <div className='select-email-wrapper'>
-            {students.map((student, index) => (
-              <div className='select-email-item'>
-                <div className='email-avatar' style={{backgroundColor:backgroundColor[index%3]}}>{student.name.charAt(0)}</div>
-                <div key={index}>
-                  <p>{student.name}</p>
+            {studentsList.map((student: Student, index: number) => (
+              <div className='select-email-item' key={student.id}>
+                <div
+                  className='email-avatar'
+                  style={{ backgroundColor: backgroundColor[index % 3] }}
+                >
+                  {student.firstName.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <p>{student.firstName + ' ' + student.lastName}</p>
                   <p>{student.email}</p>
                 </div>
                 <div className='check-box-container'>
                   <input
                     type='checkbox'
-                    value={student.email}
-                    checked={selectedEmails.includes(student.email)}
-                    onChange={(event) => handleInvite(event, student.email)}
+                    value={student.id}
+                    checked={students.includes(student.id)}
+                    onChange={(event) => handleInvite(event, student.id)}
                   />
                 </div>
               </div>
