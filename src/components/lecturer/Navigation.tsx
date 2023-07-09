@@ -36,7 +36,7 @@ export const Navigation = () => {
             <img src={logoIT} alt='' />
           </div>
           <button>
-            <NavLink to='/dasboard' end>Dashboard</NavLink>
+            <NavLink to='/dashboard' end>Dashboard</NavLink>
           </button>
           <button>
             <NavLink to='/dashboard/lecturer/students'>Students</NavLink>

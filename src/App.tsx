@@ -10,6 +10,7 @@ import {Submissions as LecturerSubmission} from './components/lecturer/Submissio
 import { Dashboard } from './pages/Dashboard';
 import { Home } from './pages/Home';
 import { RootState } from './redux/store';
+import { AssignmentDetail } from './components/student/AssignmentDetail';
 
 function App() {
   const state = useSelector((state: RootState ) => state.auth);
@@ -46,6 +47,10 @@ function App() {
         <Route
           path='resetpassword'
           element={state.isAuthenticated ? <ResetPassword /> : <Navigate to='/' />}
+        />
+        <Route
+          path='assignmentdetails'
+          element={< AssignmentDetail />}
         />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
