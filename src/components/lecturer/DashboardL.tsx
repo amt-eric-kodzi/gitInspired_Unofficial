@@ -21,14 +21,20 @@ export const DashboardL: React.FC<MyComponentProps> = ({ sortBy, searchText }) =
   }, []);
   const { assignments } = useSelector((state: RootState) => state.assignments);
 
+  const toBeSorted = [...assignments]
+
   const sortedAssignments =
     sortBy == 'title'
-      ? assignments.sort()
+      ? toBeSorted.sort()
       : sortBy == 'date'
-      ? assignments.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      ? toBeSorted.sort(
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        )
       : sortBy == 'deadline'
-      ? assignments.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-      : assignments;
+      ? toBeSorted.sort(
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+        )
+      : toBeSorted;
 
   const searchedAssignments = sortedAssignments.filter((assignment) =>
     assignment.title.toLowerCase().includes(searchText.toLowerCase()),
