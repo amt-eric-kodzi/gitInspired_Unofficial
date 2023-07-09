@@ -63,6 +63,9 @@ export const CreateAssignment = ({closeModal}:props) => {
   };
 
   const backgroundColor = ['#FFA9A9', '#A9EAFF', '#E9A9FF'];
+  const filteredStudentList = studentsList.filter((student) =>
+  student.firstName.toLowerCase().includes(studentSearch.toLowerCase())
+);
 
   return (
     <div className='create-assignment'>
@@ -103,7 +106,7 @@ export const CreateAssignment = ({closeModal}:props) => {
             value={studentSearch}
           />
           <div className='select-email-wrapper'>
-            {studentsList.map((student: Student, index: number) => (
+            {filteredStudentList.map((student: Student, index: number) => (
               <div className='select-email-item' key={student.id}>
                 <div
                   className='email-avatar'
