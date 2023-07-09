@@ -58,7 +58,7 @@ export const SearchBar: React.FC<MyComponentProps> = ({
         </div>
         <div className='sort-wrapper'>
           <select onChange={sortByHandler} value={sortBy}>
-            <option value=''>Sort By</option>
+            <option value='' disabled selected>Sort By</option>
             <option value='title'>Title</option>
             <option value='deadline'>Deadline</option>
             <option value='date'>Date</option>

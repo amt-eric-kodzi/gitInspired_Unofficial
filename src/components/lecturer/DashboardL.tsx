@@ -28,11 +28,11 @@ export const DashboardL: React.FC<MyComponentProps> = ({ sortBy, searchText }) =
       ? toBeSorted.sort()
       : sortBy == 'date'
       ? toBeSorted.sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         )
       : sortBy == 'deadline'
       ? toBeSorted.sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+          (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
         )
       : toBeSorted;
 
