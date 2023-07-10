@@ -11,10 +11,10 @@ import { addAssignment } from '../../redux/slice/assignmentsSlice';
 import { RootState } from '../../redux/store';
 
 type props = {
-  closeModal: Function
-}
+  closeModal: Function;
+};
 
-export const CreateAssignment = ({closeModal}:props) => {
+export const CreateAssignment = ({ closeModal }: props) => {
   const studentsList = useSelector((state: RootState) => state.students.students);
   const dispatch = useDispatch<ThunkDispatch<any, any, AnyAction>>();
 
@@ -58,14 +58,18 @@ export const CreateAssignment = ({closeModal}:props) => {
 
   const createAssignment = async (status: string) => {
     let data = { description, title, deadline, students, status };
-    closeModal()
+    closeModal();
     await dispatch(addAssignment(data));
   };
 
   const backgroundColor = ['#FFA9A9', '#A9EAFF', '#E9A9FF'];
-  const filteredStudentList = studentsList.filter((student) =>
-  student.firstName.toLowerCase().includes(studentSearch.toLowerCase())
-);
+  const filteredStudentList = studentsList.filter(
+    (student) =>
+      student.firstName.toLowerCase().includes(studentSearch.toLowerCase()) ||
+      student.lastName.toLowerCase().includes(studentSearch.toLowerCase()) ||
+      student.email.toLowerCase().includes(studentSearch.toLowerCase()) ||
+      student.studentId.toLowerCase().includes(studentSearch.toLowerCase()),
+  );
 
   return (
     <div className='create-assignment'>
