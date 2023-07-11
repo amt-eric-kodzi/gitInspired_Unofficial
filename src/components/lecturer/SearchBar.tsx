@@ -43,7 +43,7 @@ export const SearchBar: React.FC<MyComponentProps> = ({
   };
  */
   return (
-    <div>
+    <div className='search-panel-container'>
       <div className='search-panel'>
         <div className='search-wrapper'>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -74,7 +74,7 @@ export const SearchBar: React.FC<MyComponentProps> = ({
           <CreateAssignment closeModal={closeModal} />
         </Modal>
       </ModalRoot>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={3000} /> 
     </div>
   );
 };

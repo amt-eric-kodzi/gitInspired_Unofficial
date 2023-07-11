@@ -16,17 +16,19 @@ export const LecturerDashboard = () => {
   return (
     <div className='lecturer-home'>
       <Navigation />
-      <SearchBar
-        isCreateAssignment={isCreateAssignment}
-        setSearchText={setSearchText}
-        sortByHandler ={sortByHandler}
-        openModal={openModal}
-        closeModal={closeModal}
-        sortBy={sortBy}
-        searchText={searchText}
-      />
-      <div className='outlet-container'>
-        <DashboardL sortBy={sortBy} searchText={searchText} />
+      <div>
+        <SearchBar
+          isCreateAssignment={isCreateAssignment}
+          setSearchText={setSearchText}
+          sortByHandler={sortByHandler}
+          openModal={openModal}
+          closeModal={closeModal}
+          sortBy={sortBy}
+          searchText={searchText}
+        />
+        <div className='outlet-container'>
+          <DashboardL sortBy={sortBy} searchText={searchText} />
+        </div>
       </div>
     </div>
   );

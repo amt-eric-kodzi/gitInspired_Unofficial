@@ -6,15 +6,17 @@ import { AdminLecturers } from './components/admin/Lecturers';
 import { Students as AdminStudents } from './components/admin/Students';
 import { Drafts } from './components/lecturer/Drafts';
 import { Students } from './components/lecturer/Students';
-import {Submissions as StudentSubmission} from './components/student/Submissions';
-import {Submissions as LecturerSubmission} from './components/lecturer/Submissions'
+import { Submissions as StudentSubmission } from './components/student/Submissions';
+import { Submissions as LecturerSubmission } from './components/lecturer/Submissions';
 import { Dashboard } from './pages/Dashboard';
 import { Home } from './pages/Home';
 import { RootState } from './redux/store';
-import { AssignmentDetail } from './components/student/AssignmentDetail';
+import { AssignmentDetail as StudentAssigmentDetail } from './components/student/AssignmentDetail';
+import { AssignmentDetails as LecturerAssignmentDetail } from './components/lecturer/AssigmentDetails';
+import { SubmissionsDetails } from './components/lecturer/SubmissionsDetails';
 
 function App() {
-  const state = useSelector((state: RootState ) => state.auth);
+  const state = useSelector((state: RootState) => state.auth);
 
   return (
     <Router>
@@ -44,15 +46,16 @@ function App() {
             element={state.user?.role === 'STUDENT' ? <StudentSubmission /> : <Navigate to='/' />}
           />
         </Route>
-        
+
         <Route
           path='resetpassword'
           element={state.isAuthenticated ? <ResetPassword /> : <Navigate to='/' />}
         />
-        <Route
-          path='assignmentdetails'
-          element={< AssignmentDetail />}
-        />
+        <Route path='student/assignmentdetail' element={<StudentAssigmentDetail />} />
+
+        <Route path='lecturer/assignmentdetail' element={<LecturerAssignmentDetail />} />
+        <Route path='lecturer/submissionsdetails' element={<SubmissionsDetails />} />
+        <Route path='lecturer/submission' element={<LecturerSubmission />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>
