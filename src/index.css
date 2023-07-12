@@ -584,7 +584,7 @@ html {
 } */
 .outlet-container {
   margin-top: 3rem;
- /*  border: 1px solid red; */
+  /* border: 1px solid red; */
 }
 .search-wrapper {
   border: 1px solid gray;
@@ -1044,6 +1044,53 @@ html {
   height: 20px;
 }
 
+
+/*lecturer-drafts*/
+.draft-item {
+  display: flex;
+  width: 90%;
+  border: 1px solid #DEDEDE;
+  border-radius: 5px;
+  align-items: center;
+  margin-bottom: 1.5rem
+}
+.draft-item h2 {
+  padding: 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #3E3C3C;
+}
+.content-stats-tasks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 2rem;
+  border-left: 1px solid #DEDEDE;
+  color: #9F9F9F;
+  padding: 1rem 1rem;
+}
+
+.stats-tasks {
+  display: flex;
+  
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  margin-right: 2rem;
+}
+.task-buttons {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.task-buttons button {
+  margin-left: 1rem;
+}
 
 
 /*student-dashboard*/

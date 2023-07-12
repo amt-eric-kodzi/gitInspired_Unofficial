@@ -56,6 +56,7 @@ function App() {
         <Route path='lecturer/assignmentdetail' element={<LecturerAssignmentDetail />} />
         <Route path='lecturer/submissionsdetails' element={<SubmissionsDetails />} />
         <Route path='lecturer/submission' element={<LecturerSubmission />} />
+        <Route path='lecturer/drafts' element={<Drafts />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>
